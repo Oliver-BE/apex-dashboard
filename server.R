@@ -2,7 +2,6 @@ library(tidyverse)
 library(shiny)
 library(ggplot2)
 library(lubridate)
-library(googlesheets4)
 source("./global.R")
 
 # Server -----------------------------------------------------------------------
