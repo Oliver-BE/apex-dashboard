@@ -1,13 +1,8 @@
 ################## LOAD PACKAGES ####################
 library(tidyverse)
 library(shiny)
-library(shinythemes)
-library(shinyjs)
-library(shinybusy)
-library(mdsr)
-library(shinycssloaders)
-library(wordcloud)
-library(reshape2)
+library(shinythemes)  
+library(shinycssloaders) 
 
 
 # UI  --------------------------------------------------------------------------
@@ -81,6 +76,7 @@ ui <- fluidPage(
           type = "tabs",
           tabPanel(
             "Player Card",
+            br(),
             shinycssloaders::withSpinner(
               # print("add summary stats, photo, bio, main, etc. (make it
               #       look like an apex card")
@@ -93,14 +89,14 @@ ui <- fluidPage(
             "Other plot",
             shinycssloaders::withSpinner(
               print("Hi")
-              # plotOutput("sentiment_plot")
+              # plotOutput("")
             )
           ),
           tabPanel(
             "Play Statistics",
             shinycssloaders::withSpinner(
               print("Hi")
-              # plotOutput("topic_plot")
+              # plotOutput("")
             )
           )
         )
