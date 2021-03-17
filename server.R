@@ -1,7 +1,7 @@
 library(tidyverse)
 library(shiny)
 library(ggplot2)
-library(chron)
+library(lubridate)
 
 # Server -----------------------------------------------------------------------
 server <- function(input, output, session) {
@@ -15,20 +15,22 @@ server <- function(input, output, session) {
     min_survival_time <- input$min_survival_time
      
     df <- read.csv("dummy_data.csv") %>% 
-      select(-c(X, X.1, Email.Address, Game.Number)) #%>% 
-      #mutate(Timestamp = times(Timestamp))
+      select(-c(X, X.1, Email.Address, Game.Number)) %>% 
+      rename("Survival Time" = Survival.Time,
+              "Squad Placed" = Squad.Placed) %>% 
+      mutate(`Survival Time` = `Survival Time`)
     
     glimpse(df)
     
     # don't filter by player if we're looking at everyone
     if(input$chosen_person == "compare_all") {
       df <- df %>% 
-        filter(Survival.Time >= min_survival_time)
+        filter(`Survival Time` >= min_survival_time)
     }
     
     else {
       df <- df %>% 
-        filter(Player == chosen_person, Survival.Time >= min_survival_time)
+        filter(Player == chosen_person, `Survival Time` >= min_survival_time)
     }
 
     return(df)
