@@ -12,7 +12,8 @@ library(reshape2)
 
 # UI  --------------------------------------------------------------------------
 ui <- fluidPage(
-  theme = shinytheme("flatly"),
+  # theme = shinytheme("flatly"),
+  shinythemes::themeSelector(),
 
   navbarPage(title = "Apex Dashboard"),
 
@@ -32,10 +33,10 @@ ui <- fluidPage(
         inputId = "chosen_person",
         label = "Choose your Apex legend: ",
         choices = c(
-          "Oliver" = "oliver",
-          "Nat" = "nat",
-          "Isaac" = "isaac",
-          "Connor" = "connor",
+          "Oliver" = "Oliver",
+          "Nat" = "Nat",
+          "Isaac" = "Isaac",
+          "Connor" = "Connor",
           "Compare All" = "compare_all"
         ),
         selected = "oliver"
@@ -79,10 +80,13 @@ ui <- fluidPage(
         tabsetPanel(
           type = "tabs",
           tabPanel(
-            "Bar chart",
+            "Player Card",
             shinycssloaders::withSpinner(
-              print("Hi")
-              # plotOutput("wordcloud")
+              # print("add summary stats, photo, bio, main, etc. (make it
+              #       look like an apex card")
+              DT::dataTableOutput(
+                outputId = "player_card"
+              )
             )
           ),
           tabPanel(
@@ -93,7 +97,7 @@ ui <- fluidPage(
             )
           ),
           tabPanel(
-            "Summary Statistics",
+            "Play Statistics",
             shinycssloaders::withSpinner(
               print("Hi")
               # plotOutput("topic_plot")
