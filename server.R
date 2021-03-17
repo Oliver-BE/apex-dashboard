@@ -13,25 +13,44 @@ server <- function(input, output, session) {
     # Read in the specified inputs from UI
     chosen_person <- input$chosen_person
     chosen_stat <- input$chosen_stat
-    min_survival_time <- input$min_survival_time
-     
-    #df <- read.csv("dummy_data.csv") %>%  
+    min_survival_time <-  input$min_survival_time 
     
     # don't filter by player if we're looking at everyone
-    if(input$chosen_person == "compare_all") {
-      df <- apex_df #%>%
-        #filter(`Survival Time` >= min_survival_time)
+    if(chosen_person == "compare_all") {
+      df <- apex_df %>%
+        filter(`Survival Time (min)` >= min_survival_time)
+      
+      # don't filter by statistic if we're looking at all stats
+      if(chosen_stat == "all") {
+        df <- df
+      }
+      
+      else {
+        df <- df %>%
+          select(Player, chosen_stat)
+      }
     }
 
     else {
       df <- apex_df %>%
-        filter(Player == chosen_person)#, `Survival Time` >= min_survival_time)
+        filter(Player == chosen_person, `Survival Time (min)` >= min_survival_time)
+      
+      # don't filter by statistic if we're looking at all stats
+      if(chosen_stat == "all") {
+        df <- df
+      }
+      
+      else {
+        df <- df %>%
+          select(Player, chosen_stat)
+      }
     }
+    
 
     return(df)
   })
 
   # player card output
   # print out data table
-  output$player_card <- DT::renderDataTable(DT::datatable(apex_data()))
+  output$all_games <- DT::renderDataTable(DT::datatable(apex_data()))
 }

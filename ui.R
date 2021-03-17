@@ -7,8 +7,12 @@ library(shinycssloaders)
 
 # UI  --------------------------------------------------------------------------
 ui <- fluidPage(
-  # theme = shinytheme("flatly"),
-  shinythemes::themeSelector(),
+  # set theme
+  theme = shinytheme("yeti"),
+  # shinythemes::themeSelector(),
+  
+  # set favicon
+  tags$head(tags$link(rel="shortcut icon", href="./www/favicon.ico")),
 
   navbarPage(title = "Apex Dashboard"),
 
@@ -28,13 +32,13 @@ ui <- fluidPage(
         inputId = "chosen_person",
         label = "Choose your Apex legend: ",
         choices = c(
+          "Compare All" = "compare_all",
           "Oliver" = "Oliver",
           "Nat" = "Nat",
           "Isaac" = "Isaac",
-          "Connor" = "Connor",
-          "Compare All" = "compare_all"
+          "Connor" = "Connor"
         ),
-        selected = "oliver"
+        selected = "compare_all"
       )
     ),
     column(
@@ -43,22 +47,23 @@ ui <- fluidPage(
         inputId = "chosen_stat",
         label = "Choose a statistic: ",
         choices = c(
-          "Damage" = "damage",
-          "Kills" = "kills",
-          "Assists" = "assists",
-          "Knocks" = "knocks",
-          "Survival Time" = "survival_time",
-          "Squad Placement" = "squad_place" 
+          "All" = "all",
+          "Damage" = "Damage",
+          "Kills" = "Kills",
+          "Assists" = "Assists",
+          "Knocks" = "Knocks",
+          "Survival Time" = "Survival Time",
+          "Squad Placement" = "Squad Placed" 
         ),
-        selected = "damage"
+        selected = "all"
       )
     ), 
     column(
       width = 5,
       sliderInput(
         inputId = "min_survival_time",
-        label = "Filter by minimum survival time (in minutes)",
-        min = 0, max = 15, value = 0, step = 0.5,
+        label = "Filter by minimum survival time (in minutes):",
+        min = 0, max = 20, value = 0, step = 0.5,
         ticks = TRUE
       )
     )
@@ -75,13 +80,13 @@ ui <- fluidPage(
         tabsetPanel(
           type = "tabs",
           tabPanel(
-            "Player Card",
+            "All Games",
             br(),
             shinycssloaders::withSpinner(
               # print("add summary stats, photo, bio, main, etc. (make it
               #       look like an apex card")
               DT::dataTableOutput(
-                outputId = "player_card"
+                outputId = "all_games"
               )
             )
           ),
