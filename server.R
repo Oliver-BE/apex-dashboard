@@ -2,6 +2,7 @@ library(tidyverse)
 library(shiny)
 library(ggplot2)
 library(lubridate)
+library(googlesheets4)
 
 # Server -----------------------------------------------------------------------
 server <- function(input, output, session) {
@@ -14,23 +15,17 @@ server <- function(input, output, session) {
     chosen_stat <- input$chosen_stat
     min_survival_time <- input$min_survival_time
      
-    df <- read.csv("dummy_data.csv") %>% 
-      select(-c(X, X.1, Email.Address, Game.Number)) %>% 
-      rename("Survival Time" = Survival.Time,
-              "Squad Placed" = Squad.Placed) %>% 
-      mutate(`Survival Time` = `Survival Time`)
-    
-    glimpse(df)
+    #df <- read.csv("dummy_data.csv") %>%  
     
     # don't filter by player if we're looking at everyone
     if(input$chosen_person == "compare_all") {
-      df <- df %>% 
-        filter(`Survival Time` >= min_survival_time)
+      df <- apex_df #%>%
+        #filter(`Survival Time` >= min_survival_time)
     }
-    
+
     else {
-      df <- df %>% 
-        filter(Player == chosen_person, `Survival Time` >= min_survival_time)
+      df <- apex_df %>%
+        filter(Player == chosen_person)#, `Survival Time` >= min_survival_time)
     }
 
     return(df)
