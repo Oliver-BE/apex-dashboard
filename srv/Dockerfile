@@ -13,7 +13,7 @@ RUN install2.r --error \
     tidyverse \ 
     shinycssloaders \
     shinythemes \
-    googlesheets4
+    gsheet
     
 COPY shiny-customized.config /etc/shiny-server/shiny-server.conf
 
