@@ -2,6 +2,7 @@ library(tidyverse)
 library(shiny)
 library(ggplot2)
 library(lubridate)
+library(plotly)
 source("./global.R")
 
 # Server -----------------------------------------------------------------------
