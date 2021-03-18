@@ -50,7 +50,7 @@ server <- function(input, output, session) {
     return(df)
   })
   
-donut_chart <- apex_df %>% group_by(`Legend used`) %>% 
+donut_chart <- apex_data() %>% group_by(`Legend used`) %>% 
   select(`Legend used`) %>% 
   drop_na()
 donut_chart <- donut_chart %>% summarize(count = n())
