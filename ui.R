@@ -3,6 +3,7 @@ library(tidyverse)
 library(shiny)
 library(shinythemes)  
 library(shinycssloaders) 
+library(plotly)
 
 
 # UI  --------------------------------------------------------------------------
