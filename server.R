@@ -49,7 +49,18 @@ server <- function(input, output, session) {
 
     return(df)
   })
+  
+donut_chart <- apex_df %>% group_by(`Legend used`) %>% 
+  select(`Legend used`) %>% 
+  drop_na()
+donut_chart <- donut_chart %>% summarize(count = n())
+donut_fig <- donut_chart %>% plot_ly(labels = ~`Legend used`, values = ~count) %>% 
+  add_pie(hole = 0.6) %>% 
+  layout(title = "Legends Used",  showlegend = T,
+                      xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+                      yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
 
+  output$donut_fig <- renderPlotly(donut_fig) 
   # player card output
   # print out data table
   output$all_games <- DT::renderDataTable(DT::datatable(apex_data()))
