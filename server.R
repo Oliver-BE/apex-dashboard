@@ -52,9 +52,9 @@ server <- function(input, output, session) {
   })
   
 donut_c <- reactive({
-  apex_data() %>% group_by(`Legend used`) %>% 
-  select(`Legend used`) %>% 
-    drop_na()
+  donut_chart <- apex_data() %>% group_by(`Legend used`) %>% 
+    select(`Legend used`) %>% 
+      drop_na()
   donut_chart <- donut_chart %>% summarize(count = n())
   donut_fig <- donut_chart %>% plot_ly(labels = ~`Legend used`, values = ~count) %>% 
     add_pie(hole = 0.6) %>% 
