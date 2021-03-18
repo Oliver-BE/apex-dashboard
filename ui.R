@@ -71,8 +71,6 @@ ui <- fluidPage(
   ),
 
   hr(),
-  plotlyOutput("donut_fig") %>% withSpinner(),#color = "#228B22"),
-  hr(),
   # Row 3 (text output and plots)
   fluidRow(  
     # column to output plots (as tabs)
@@ -93,11 +91,8 @@ ui <- fluidPage(
             )
           ),
           tabPanel(
-            "Other plot",
-            shinycssloaders::withSpinner(
-              print("Hi")
-              # plotOutput("")
-            )
+            "Legends Used",
+            plotlyOutput("donut_fig") %>% withSpinner(),#color = "#228B22"),
           ),
           tabPanel(
             "Play Statistics",
