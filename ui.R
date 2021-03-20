@@ -31,15 +31,15 @@ ui <- fluidPage(
       width = 3,
       selectInput(
         inputId = "chosen_person",
-        label = "Choose your Apex legend: ",
+        label = "Choose your Player: ",
         choices = c(
-          "Compare All" = "compare_all",
+          "Compare All" = "All",
           "Oliver" = "Oliver",
           "Nat" = "Nat",
           "Isaac" = "Isaac",
           "Connor" = "Connor"
         ),
-        selected = "compare_all"
+        selected = "All"
       )
     ),
     column(
@@ -48,13 +48,11 @@ ui <- fluidPage(
         inputId = "chosen_stat",
         label = "Choose a statistic: ",
         choices = c(
-          "All" = "all",
+          "All" = "All",
           "Damage" = "Damage",
           "Kills" = "Kills",
           "Assists" = "Assists",
-          "Knocks" = "Knocks",
-          "Survival Time" = "Survival Time",
-          "Squad Placement" = "Squad Placed" 
+          "Knocks" = "Knocks"
         ),
         selected = "all"
       )
@@ -83,24 +81,33 @@ ui <- fluidPage(
             "All Games",
             br(),
             shinycssloaders::withSpinner(
-              # print("add summary stats, photo, bio, main, etc. (make it
-              #       look like an apex card")
               DT::dataTableOutput(
-                outputId = "all_games"
+                outputId = "all_games_dt"
+              )
+            )
+          ),
+          tabPanel(
+            "Summary Stats",
+            br(),
+            shinycssloaders::withSpinner(
+              DT::dataTableOutput(
+                outputId = "summary_stats_dt"
+              )
+            )
+          ),
+          tabPanel(
+            "Leaderboard",
+            br(),
+            shinycssloaders::withSpinner(
+              DT::dataTableOutput(
+                outputId = "leaderboard_dt"
               )
             )
           ),
           tabPanel(
             "Legends Used",
-            p(),
+            br(),
             plotlyOutput("donut_fig") %>% withSpinner(),#color = "#228B22"),
-          ),
-          tabPanel(
-            "Play Statistics",
-            shinycssloaders::withSpinner(
-              print("Hi")
-              # plotOutput("")
-            )
           )
         )
       ),
