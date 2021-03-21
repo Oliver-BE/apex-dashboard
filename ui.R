@@ -96,6 +96,11 @@ ui <- fluidPage(
             )
           ),
           tabPanel(
+            "Kills Over Time",
+            br(),
+            plotlyOutput("kills_over_time_fig") %>% withSpinner(),
+          ),
+          tabPanel(
             "Leaderboard",
             br(),
             shinycssloaders::withSpinner(
@@ -103,7 +108,7 @@ ui <- fluidPage(
                 outputId = "leaderboard_dt"
               )
             )
-          ),
+          ), 
           tabPanel(
             "Legends Used",
             br(),

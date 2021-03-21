@@ -8,15 +8,18 @@ raw_apex_df <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1v40AgpaoRrA3v
 
 # initial cleaning: get rid of rows with all NAs, clean up survival time, etc. 
 apex_df <- filter(raw_apex_df, rowSums(is.na(raw_apex_df)) != ncol(raw_apex_df)) %>% 
-  mutate(survival_time_dt = strptime(`Survival Time`, format = "%M:%S"),
+  mutate(Timestamp_raw = parse_date_time(Timestamp, orders = "mdy HMS", tz = "EST"),
+         Timestamp = as.character(Timestamp_raw),
+         survival_time_dt = strptime(`Survival Time`, format = "%M:%S"),
          `Survival Time (min)` = round(minute(survival_time_dt) + second(survival_time_dt) / 60, digits = 2)) %>% 
-  select(-c(X9, X10, survival_time_dt, `Survival Time`)) %>%
-  arrange(desc(Timestamp)) 
+  select(-c(X9, X10, survival_time_dt, `Survival Time`, Timestamp_raw)) %>%
+  arrange(desc(Timestamp))  
 
 # summary stats df
 summary_stats_df <- apex_df %>% 
   group_by(Player) %>% 
   summarize(`Num Games Played` = n(),
+            `Num Wins` = sum(ifelse(`Squad Placed` == 1, TRUE, FALSE)),
             `Total Damage` = sum(Damage),
             `Total Kills` = sum(Kills),
             `Total Assists` = sum(Assists),
