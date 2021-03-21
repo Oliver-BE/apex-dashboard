@@ -123,31 +123,31 @@ server <- function(input, output, session) {
       oliver_df <- apex_df %>% 
         filter(Player == "Oliver") %>% 
         mutate(`Game Number` = row_number())
-      oliver_df <- cbind(oliver_df, "Cumulative Damage" = cumsum(oliver_df$Damage))
+      oliver_df <- cbind(oliver_df, "Cumulative" = cumsum(oliver_df[[chosen_stat]]))
       
       connor_df <- apex_df %>% 
         filter(Player == "Connor") %>% 
         mutate(`Game Number` = row_number())
-      connor_df <- cbind(connor_df, "Cumulative Damage" = cumsum(connor_df$Damage))
+      connor_df <- cbind(connor_df, "Cumulative" = cumsum(connor_df[[chosen_stat]]))
       
       isaac_df <- apex_df %>% 
         filter(Player == "Isaac") %>% 
         mutate(`Game Number` = row_number())
-      isaac_df <- cbind(isaac_df, "Cumulative Damage" = cumsum(isaac_df$Damage))
+      isaac_df <- cbind(isaac_df, "Cumulative" = cumsum(isaac_df[[chosen_stat]]))
       
       nat_df <- apex_df %>% 
         filter(Player == "Nat") %>% 
         mutate(`Game Number` = row_number())
-      nat_df <- cbind(nat_df, "Cumulative Damage" = cumsum(nat_df$Damage))
+      nat_df <- cbind(nat_df, "Cumulative" = cumsum(nat_df[[chosen_stat]]))
       
       thomas_df <- apex_df %>% 
         filter(Player == "Thomas") %>% 
         mutate(`Game Number` = row_number())
-      thomas_df <- cbind(thomas_df, "Cumulative Damage" = cumsum(thomas_df$Damage))
+      thomas_df <- cbind(thomas_df, "Cumulative" = cumsum(thomas_df[[chosen_stat]]))
       
       df <- rbind(oliver_df, connor_df, isaac_df, nat_df, thomas_df)  
       
-      fig <- plot_ly(df, x = ~`Timestamp_raw`, y = ~`Cumulative Damage`,
+      fig <- plot_ly(df, x = ~`Timestamp_raw`, y = ~`Cumulative`,
                      color = ~Player,
                      type = 'scatter', mode = 'lines') %>% 
               layout(title = paste(chosen_stat, "over time by", chosen_person),
@@ -161,15 +161,10 @@ server <- function(input, output, session) {
         filter(Player == chosen_person) %>% 
         mutate(`Game Number` = row_number())
       
-      # sum up whatever stat we are looking at 
+      # sum up whatever stat we are looking at (call it "Cumulative")
       df <- cbind(df, "Cumulative" = cumsum(df[[chosen_stat]]))
-      new_column_name <- paste0("Cumulative_", chosen_stat)
-      # rename "Cumulative" column (unfortunately can't do this in one step above)
-      colnames(df)[colnames(df) == "Cumulative"] <- new_column_name
-      print(new_column_name)
-      glimpse(df)
       
-      fig <- plot_ly(df, x = ~`Timestamp_raw`, y = ~new_column_name, 
+      fig <- plot_ly(df, x = ~`Timestamp_raw`, y = ~Cumulative, 
                      type = 'scatter', mode = 'lines')  %>% 
               layout(title = paste(chosen_stat, "over time by", chosen_person),
                      xaxis = list(title = "Date"),
