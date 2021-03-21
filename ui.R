@@ -14,6 +14,12 @@ ui <- fluidPage(
   
   # set favicon
   tags$head(tags$link(rel="shortcut icon", href="./www/favicon.ico")),
+  tags$head(tags$link(rel="icon", href="./www/favicon.ico")),
+  
+  tags$style(type="text/css",
+             ".shiny-output-error { visibility: hidden; }",
+             ".shiny-output-error:before { visibility: hidden; }"
+  ),
 
   navbarPage(title = "Apex Dashboard"),
 
@@ -22,7 +28,7 @@ ui <- fluidPage(
     column(
       width = 2,
       img(
-        src = "apex_logo.png", height = 50
+        src = "apex_logo_2.png", height = 100
       ),
       align = "center"
     ), 
@@ -99,7 +105,9 @@ ui <- fluidPage(
           tabPanel(
             "Stats Over Time Chart",
             br(),
-            plotlyOutput("over_time_fig") %>% withSpinner(),
+            shinycssloaders::withSpinner(
+              plotlyOutput("over_time_fig")
+            )
           ),
           tabPanel(
             "Leaderboard",

@@ -176,15 +176,27 @@ server <- function(input, output, session) {
   
   # reactive pie chart
   donut_c <- reactive({
-    donut_chart <- all_games() %>% 
-      group_by(`Legend used`) %>% 
-      select(`Legend used`) %>% 
-      drop_na()
     
-    donut_chart <- donut_chart %>% 
+    chosen_person <- input$chosen_person
+    
+    if(chosen_person == "All") {
+      df <- apex_df %>% 
+        group_by(`Legend used`) %>% 
+        select(`Legend used`) %>% 
+        drop_na()
+    }
+    else {
+      df <- apex_df %>% 
+        filter(Player == chosen_person) %>% 
+        group_by(`Legend used`) %>% 
+        select(`Legend used`) %>% 
+        drop_na()
+    }
+    
+    df <- df %>% 
       summarize(count = n())
     
-    donut_fig <- donut_chart %>% 
+    donut_fig <- df %>% 
       plot_ly(labels = ~`Legend used`, values = ~count) %>% 
       add_pie(hole = 0.6) %>% 
       layout(title = paste("Legends Used by", input$chosen_person),  showlegend = T,
