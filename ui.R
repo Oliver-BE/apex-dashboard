@@ -121,7 +121,9 @@ ui <- fluidPage(
           tabPanel(
             "Legends Used",
             br(),
-            plotlyOutput("donut_fig") %>% withSpinner(),#color = "#228B22"),
+            shinycssloaders::withSpinner(
+              plotlyOutput("donut_fig")
+            )
           )
         )
       ),
