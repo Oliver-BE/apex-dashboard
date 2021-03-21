@@ -37,7 +37,8 @@ ui <- fluidPage(
           "Oliver" = "Oliver",
           "Nat" = "Nat",
           "Isaac" = "Isaac",
-          "Connor" = "Connor"
+          "Connor" = "Connor",
+          "Thomas" = "Thomas"
         ),
         selected = "All"
       )
@@ -96,9 +97,9 @@ ui <- fluidPage(
             )
           ),
           tabPanel(
-            "Kills Over Time",
+            "Stats Over Time Chart",
             br(),
-            plotlyOutput("kills_over_time_fig") %>% withSpinner(),
+            plotlyOutput("over_time_fig") %>% withSpinner(),
           ),
           tabPanel(
             "Leaderboard",
