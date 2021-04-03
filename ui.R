@@ -44,7 +44,9 @@ ui <- fluidPage(
           "Nat" = "Nat",
           "Isaac" = "Isaac",
           "Connor" = "Connor",
-          "Thomas" = "Thomas"
+          "Thomas" = "Thomas",
+          "Hunter" = "Hunter",
+          "Neb" = "Neb"
         ),
         selected = "All"
       )

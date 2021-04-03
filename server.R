@@ -81,6 +81,7 @@ server <- function(input, output, session) {
                 `Total Assists` = sum(Assists),
                 `Total Knocks` = sum(Knocks),
                 `Total Survival Time` = sum(`Survival Time (min)`),
+                `Win Pct` = round(`Num Wins` / `Num Games Played`, 2),
                 `KDR` = round(`Total Kills` / `Num Games Played`, 2),
                 `Damage Per Game` = round(`Total Damage` / `Num Games Played`, 0),
                 `Damage Per Minute` = round(`Total Damage` / `Total Survival Time`, 1)) %>% 
@@ -145,7 +146,17 @@ server <- function(input, output, session) {
         mutate(`Game Number` = row_number())
       thomas_df <- cbind(thomas_df, "Cumulative" = cumsum(thomas_df[[chosen_stat]]))
       
-      df <- rbind(oliver_df, connor_df, isaac_df, nat_df, thomas_df)  
+      hunter_df <- apex_df %>% 
+        filter(Player == "Hunter") %>% 
+        mutate(`Game Number` = row_number())
+      hunter_df <- cbind(hunter_df, "Cumulative" = cumsum(hunter_df[[chosen_stat]]))
+      
+      neb_df <- apex_df %>% 
+        filter(Player == "Neb") %>% 
+        mutate(`Game Number` = row_number())
+      neb_df <- cbind(neb_df, "Cumulative" = cumsum(neb_df[[chosen_stat]]))
+      
+      df <- rbind(oliver_df, connor_df, isaac_df, nat_df, thomas_df, hunter_df, neb_df)  
       
       fig <- plot_ly(df, x = ~`Timestamp_raw`, y = ~`Cumulative`,
                      color = ~Player,
