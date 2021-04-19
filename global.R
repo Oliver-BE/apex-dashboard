@@ -12,7 +12,9 @@ apex_df <- filter(raw_apex_df, rowSums(is.na(raw_apex_df)) != ncol(raw_apex_df))
          Timestamp = as.character(Timestamp_raw),
          survival_time_dt = strptime(`Survival Time`, format = "%M:%S"),
          `Survival Time (min)` = round(minute(survival_time_dt) + second(survival_time_dt) / 60, digits = 2)) %>% 
-  select(-c(X9, X10, survival_time_dt, `Survival Time`)) 
+  select(-c(X9, X10, survival_time_dt, `Survival Time`)) %>% 
+  distinct(Player, Damage, Kills, Assists, Knocks, `Squad Placed`,
+           `Legend used`, `Survival Time (min)`, .keep_all = TRUE)
 
 # leaderboard df
 leaderboard_df <- rbind(top_n(apex_df, 1, Damage) %>% 
